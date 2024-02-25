@@ -35,10 +35,6 @@
             <b-form-input v-model="proportion" class="proportion-inputs__number" />
           </div>
         </div>
-        <div class="demo__settings__checkbox">
-          <div>Simulate a fault</div>
-          <b-form-checkbox />
-        </div>
       </div>
 
       <div v-if="selected" class="demo__info">All available {{ selected?.toLowerCase() }} methods will be selected.</div>
@@ -46,6 +42,10 @@
       <div v-if="selected">
         <div>
           <div class="user-guide-container__header_step">Step 2 <span>Set demo options</span></div>
+          <div v-if="selected === 'Classification'" class="demo__settings__checkbox">
+            <div>Simulate a fault</div>
+            <b-form-checkbox />
+          </div>
           <div v-for="item in signals" :key="item" class="settings-block">
             <div>
               <div class="settings-block__title">Signal type:</div>

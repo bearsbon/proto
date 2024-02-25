@@ -34,7 +34,7 @@ export default defineComponent({
     };
 
     const startSimulation = () => {
-      router.push('simulation/1');
+      router.push('simulation/1?type=Clustering');
     };
 
     return {

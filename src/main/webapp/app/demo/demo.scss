@@ -11,6 +11,45 @@
     color: #8190a5;
     font-size: 20px;
   }
+
+  &__settings {
+    margin-top: 30px;
+
+    &__checkbox {
+      color: #8190a5;
+      font-size: 20px;
+      align-items: center;
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+
+      &:deep(.custom-control) {
+        max-height: 1rem;
+      }
+    }
+  }
+
+  &__header {
+    margin-bottom: 44px;
+  }
+
+  &__table {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+    .redirect-button {
+      background-color: $primary;
+      color: $body-bg;
+      border-radius: 5px;
+      height: 50px;
+      padding: 0 50px;
+    }
+  }
 }
 
 .settings-block {
@@ -145,44 +184,6 @@
   display: flex;
   justify-content: space-between;
   margin-right: 50px;
-}
-
-.demo {
-  margin-top: 50px;
-
-  &__settings {
-    margin-top: 30px;
-
-    &__checkbox {
-      color: #8190a5;
-      font-size: 20px;
-      align-items: center;
-      display: flex;
-      gap: 15px;
-    }
-  }
-
-  &__header {
-    margin-bottom: 44px;
-  }
-
-  &__table {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 18px;
-    .redirect-button {
-      background-color: $primary;
-      color: $body-bg;
-      border-radius: 5px;
-      height: 50px;
-      padding: 0 50px;
-    }
-  }
 }
 
 .report-page {
