@@ -1,0 +1,40 @@
+.btn {
+  width: 192px;
+  height: 50px;
+
+  &__primary {
+    border-radius: 5px;
+
+    &__disabled {
+      background-color: #c2c2c2;
+      border-color: #c2c2c2;
+    }
+  }
+
+  &._secondary {
+    background-color: $body-bg;
+    border: 2px solid #8190a5;
+    color: $primary-text;
+    line-height: 1.1;
+
+    &:hover {
+      background-color: #e9e9e9;
+    }
+    &:active {
+      color: #6c757d;
+    }
+  }
+  &._auth {
+    background-color: $primary;
+    border-color: $primary;
+    width: 288px;
+  }
+  &.btn-outline-primary {
+    border-color: $primary-text;
+    color: $primary-text;
+    &:hover {
+      background-color: $primary-text;
+      color: #ffffff;
+    }
+  }
+}

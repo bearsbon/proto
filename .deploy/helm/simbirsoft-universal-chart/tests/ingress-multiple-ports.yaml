@@ -1,0 +1,33 @@
+---
+
+extraContainerPorts:
+  - name: foo
+    containerPort: 8081
+    protocol: TCP
+
+service:
+  type: ClusterIP
+  port: 8080
+  extraPorts:
+    - port: 8081
+      targetPort: foo
+      protocol: TCP
+      name: foo
+
+ingress:
+  enabled: true
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              port:
+                number: 8080
+        - path: /foo
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              port:
+                number: 8081

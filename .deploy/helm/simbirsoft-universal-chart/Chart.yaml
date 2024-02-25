@@ -1,0 +1,12 @@
+apiVersion: v2
+name: simbirsoft-universal-chart
+version: 1.0.1
+appVersion: latest
+description: Simbirsoft universal Helm chart for deploy your apps to Kubernetes
+home: http://gitlab.simbirsoft/simbirsoft/infra-2.0/helm-charts/-/tree/master/simbirsoft-universal-chart
+icon: https://www.simbirsoft.com/upload/logo.png
+maintainers:
+  - name: Simbirsoft DevOps Team
+    email: devops@simbirsoft.com
+sources:
+  - http://gitlab.simbirsoft/simbirsoft/infra-2.0/helm-charts/-/tree/master/simbirsoft-universal-chart

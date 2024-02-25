@@ -1,0 +1,28 @@
+.icon {
+  background-size: cover;
+  z-index: 1;
+  display: inline-block;
+  &_small {
+    width: 15px;
+    height: 15px;
+  }
+  &_medium {
+    width: 18px;
+    height: 18px;
+  }
+  &_large {
+    width: 35px;
+    height: 35px;
+  }
+  &-download {
+    &__default {
+      background-image: url('/content/icons/download-default.svg');
+    }
+    &__white {
+      background-image: url('/content/icons/download-white.svg');
+    }
+  }
+  &-rename {
+    background-image: url('/content/icons/rename.svg');
+  }
+}

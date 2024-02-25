@@ -1,0 +1,314 @@
+---
+
+# set to false, if you dont need create manifest Deployment
+deploymentEnabled: true
+
+global:
+  imagePullPolicy: IfNotPresent
+
+replicaCount: 1
+
+# See `kubectl explain deployment.spec.strategy` for more
+# ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+deploymentStrategy:
+  type: RollingUpdate
+
+image:
+  registry: example.com
+  repository: repo
+  name: app
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+# Override default container command
+command: []
+  # - /app/bin/cmd
+
+# Override default container args
+args: []
+  # - --config
+  # - config.yml
+
+initContainers: []
+  # - name: run-db-migrations
+  #   # if "" then uses default image for this chart
+  #   image: ""
+  #   command:
+  #     - /bin/sh
+  #     - -ec
+  #     - |
+  #       python3 manage.py migrate
+  # - name: run-something
+  #   image: ""
+  #   command:
+  #     - /bin/sh
+  #     - -ec
+  #     - |
+  #       echo "start something"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Additional environment variables
+env: {}
+  # foo: bar
+
+# create config maps
+configMaps: {}
+  # config:
+  #   additionalLabels:
+  #     foo: bar
+  #   additionalAnnotations:
+  #     foo: bar
+  #   data:
+  #     config.yml: |
+  #       foo: bar
+
+# volumes
+volumes: {}
+  # - name: config
+  #   configMap:
+  #     name: "test"
+  # - name: sys
+  #   hostPath:
+  #     path: /sys
+  # - name: pvc
+  #   persistentVolumeClaim:
+  #     claimName: <name>-simbirsoft-universal-chart
+
+# volume mounts
+volumeMounts: {}
+  # - name: config
+  #   mountPath: /app/conf
+  # - name: sys
+  #   mountPath: /sys
+  #   readOnly:  true
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    # Create ServiceMonitor Resource for scraping metrics using Prometheus Operator
+    enabled: false
+    # Namespace for the ServiceMonitor Resource (defaults to the Release Namespace)
+    namespace: ""
+    # Interval at which metrics should be scraped.
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    interval: ""
+    # Timeout after which the scrape is ended
+    # ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+    scrapeTimeout: ""
+    # Additional labels that can be used so ServiceMonitor will be discovered by Prometheus
+    labels: {}
+    # Prometheus instance selector labels
+    # ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
+    selector: {}
+    # RelabelConfigs to apply to samples before scraping
+    relabelings: []
+    # MetricRelabelConfigs to apply to samples before ingestion
+    metricRelabelings: []
+    # Specify honorLabels parameter to add the scrape endpoint
+    honorLabels: false
+    # The name of the label on the target service to use as the job name in prometheus.
+    jobLabel: ""
+    endpoints:
+      port: metrics
+      path: "/metrics"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+extraContainerPorts: []
+  # - name: metrics
+  #   containerPort: 9090
+  #   protocol: TCP
+
+service:
+  # set to false, if you dont need create manifest Service
+  enabled: true
+  type: ClusterIP
+  port: 80
+  extraPorts: []
+    # - port: 9090
+    #   targetPort: metrics
+    #   protocol: TCP
+    #   name: metrics
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          # backend:
+          #   service:
+          #     port:
+          #       number:
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## Configure NetworkPolicy
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+## ref: https://habr.com/ru/companies/flant/articles/443190/
+#
+networkPolicy:
+  enabled: false
+  spec:
+    podSelector:
+      matchLabels: {} # Labels are ANDed if there are multiple.
+    policyTypes: # This field is inferred from existence of rules further below. All policies are assumed to affect ingress. Hence "Egress" here if you want an egress-only policy.
+      - Ingress
+      - Egress
+    ingress:
+      - from:
+          # If this field is set, then it negates the other two.
+          # - ipBlock:
+          #     cidr: 172.17.0.0/16
+          #     except:
+          #       - 172.17.1.0/24
+        - podSelector:
+            matchLabels: {}
+        - namespaceSelector:
+            matchLabels:
+              app.gitlab.com/managed_by: gitlab
+        ports:
+          - protocol: TCP  # TCP (default), UDP or SCTP
+            port: 6379  # Numerical or named port
+    # egress:
+    #   - to:
+    #       # If this field is set, then it negates the other two (namespaceSelector and podSelector).
+    #       - ipBlock:
+    #           cidr: 10.0.0.0/24
+    #     ports:
+    #       - protocol: TCP
+    #         port: 5978
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+pvcs: {}
+  # data:
+  #   labels:
+  #     foo: bar
+  #   annotations:
+  #     # https://helm.sh/docs/howto/charts_tips_and_tricks/#tell-helm-not-to-uninstall-a-resource
+  #     # use this flag, to keep volume after helm uninstall
+  #     helm.sh/resource-policy: keep
+  #   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+  #   # ReadWriteOnce - том может быть смонтирован в режиме чтения-записи одним подом.
+  #   # ReadOnlyMany - том может быть смонтирован только для чтения многими подами.
+  #   # ReadWriteMany - том может быть смонтирован как чтение-запись многими подами.
+  #   # ReadWriteOncePod - том может быть смонтирован как чтение-запись одним подом
+  #   accessModes:
+  #     - ReadWriteOnce
+  #   # "Filesystem" or "Block", optional parameter
+  #   volumeMode: Filesystem
+  #   size: 1Gi
+  #   storageClassName: "longhorn"
+  #   selector:
+  #     matchLabels:
+  #       release: "stable"
+  #     matchLabels2:
+  #       foo: "bar"
+
+livenessProbe: {}
+  # We usually recommend to specify probes, read https://habr.com/ru/company/nixys/blog/544288/
+  # tcpSocket:
+  #   port: http
+  # initialDelaySeconds: 5
+  # periodSeconds: 10
+
+readinessProbe: {}
+  # We usually recommend to specify probes, read https://habr.com/ru/company/nixys/blog/544288/
+  # httpGet:
+  #   path: /healthz
+  #   port: http
+  # initialDelaySeconds: 5
+  # periodSeconds: 10
+
+startupProbe: {}
+  # We usually recommend to specify probes, read https://habr.com/ru/company/nixys/blog/544288/
+  # httpGet:
+  #   path: /healthz
+  #   port: http
+  # failureThreshold: 30
+  # periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+cronjobs: {}
+  # cronjob-1:
+  #   schedule: '"0 5 * * *"'
+  #   restartPolicy: Never
+  #   concurrencyPolicy: Allow
+  #   failedJobsHistoryLimit: 1
+  #   successfulJobsHistoryLimit: 5
+  #   suspend: false
+  #   # backoffLimit: 1
+  #   env:
+  #     # foo: bar
+  #   image:
+  #.    # if name not defined, then use default image for chart
+  #     name: nginx:latest
+  #     pullPolicy: Always
+  #   # command:
+  #   #   - '/bin/sh'
+  #   # args:
+  #   #   - '-c'
+  #   #   - 'find /volumes/ -type f -ctime +7'
+  # cronjob-2:
+  #   schedule: '"0 30 * * *"'
+  #   restartPolicy: Never
+  #   concurrencyPolicy: Allow
+  #   failedJobsHistoryLimit: 1
+  #   successfulJobsHistoryLimit: 5
+  #   suspend: false
+  #   backoffLimit: 1
+  #   env:
+  #     foo: bar
+  #   image:
+  #     name: nginx:latest
+  #     pullPolicy: Always
+  #   command:
+  #     - '/bin/sh'
+  #   args: ['-c', 'find /volumes/ -type f -ctime +7']

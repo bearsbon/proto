@@ -1,0 +1,72 @@
+{{- if .Values.cronjobs }}
+{{- $all := . -}}
+{{- $fullName := include "simbirsoft-universal-chart.fullname" . -}}
+{{- range $k, $v := $.Values.cronjobs }}
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $fullName }}-{{ $k }}
+  labels:
+    {{- include "simbirsoft-universal-chart.labels" $all | nindent 4 }}
+spec:
+  schedule: {{ $v.schedule }}
+  concurrencyPolicy: {{ $v.concurrencyPolicy }}
+  failedJobsHistoryLimit: {{ $v.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $v.successfulJobsHistoryLimit }}
+  suspend: {{ $v.suspend | default false }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ $v.backoffLimit | default 1 }}
+      template:
+        metadata:
+          labels:
+            {{- include "simbirsoft-universal-chart.labels" $all | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "simbirsoft-universal-chart.serviceAccountName" $all }}
+          containers:
+            - name: {{ $fullName }}-{{ $k }}
+              {{- if and $v.image $v.image.name }}
+              image: "{{ $v.image.name | default (include "helpers.common.containerImage" $all) }}"
+              {{- else }}
+              image: "{{ include "helpers.common.containerImage" $all }}"
+              {{- end }}
+              imagePullPolicy: {{ $.Values.image.pullPolicy | default $.Values.global.ImagePullPolicy }}
+              {{- if or $.Values.env .env }}
+              env:
+                {{- if $.Values.env }}
+                  {{- include "helpers.pod.envs" $all | indent 16 }}
+                {{- end }}
+                {{- if $v.env }}
+                  {{- range $name, $value := $v.env }}
+                - name: {{ $name }}
+                  value: {{ $value | quote }}
+                  {{- end }}
+                {{- end }}
+              {{- end }}
+              {{- if $v.command }}
+              command: {{- include "helpers.common.tplvalues.render" (dict "value" $v.command "context" $) | nindent 14 }}
+              {{- end }}
+              {{- if $v.args }}
+              args: {{- include "helpers.common.tplvalues.render" (dict "value" $v.args "context" $) | nindent 14 }}
+              {{- end }}
+              resources:
+                {{- toYaml $.Values.resources | nindent 16 }}
+              {{- include "helpers.pod.volumeMounts" $all | nindent 14 -}}
+          restartPolicy: {{ .restartPolicy }}
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- include "helpers.pod.volumes" $all | nindent 10 }}
+{{- end }}
+{{- end }}

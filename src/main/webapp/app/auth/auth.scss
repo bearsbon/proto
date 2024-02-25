@@ -1,0 +1,43 @@
+.auth-wrapper {
+  height: 100vh;
+  background-color: $body-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.auth-form {
+  width: 600px;
+  padding: 0 115px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__info {
+    color: $primary-text;
+    font-size: 16px;
+    line-height: 28px;
+
+    &._last {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__input {
+    border: 1px solid $input-border;
+    border-radius: 5px;
+    width: 284px;
+    height: 32px;
+    margin-bottom: 16px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

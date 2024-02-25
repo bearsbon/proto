@@ -1,0 +1,5 @@
+.git
+.deploy/helm
+*.md
+.gitlab-ci.yml
+node_modules

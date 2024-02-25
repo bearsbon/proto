@@ -1,0 +1,59 @@
+.b-table-sticky-header {
+  max-height: 69vh;
+  border-bottom: 1px solid $table-bg;
+  margin-bottom: 0;
+}
+:deep(.table) {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-left: 1px solid $table-bg;
+  border-right: 1px solid $table-bg;
+  color: $primary;
+  thead {
+    th {
+      border-top: 1px solid $table-bg;
+      border-bottom: 1px solid $table-bg;
+      background-color: #eff2f7;
+    }
+  }
+  tbody {
+    background-color: $body-bg;
+    .b-table-empty-row {
+      background-color: $body-bg;
+    }
+    tr {
+      cursor: pointer;
+      &:nth-child(2n) {
+        background-color: #f9fafc;
+      }
+      .downloadable-cell {
+        cursor: pointer;
+        &:hover {
+          color: $primary-text;
+        }
+      }
+    }
+    .icon {
+      vertical-align: middle;
+    }
+    .report-download {
+      display: inline-block;
+      padding: 2px 5px;
+      background-color: $primary;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $primary-text;
+      }
+    }
+  }
+}
+
+.customTd {
+  border: 0;
+  position: relative;
+  background: #fff;
+  top: 25px;
+  padding: 0;
+}

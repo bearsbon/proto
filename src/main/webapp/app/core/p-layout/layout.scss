@@ -1,0 +1,25 @@
+.full-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  background-color: $body-bg;
+
+  .content {
+    width: 1440px;
+    padding: 5px 170px;
+  }
+}
+
+@media (max-width: 1366px) {
+  .content-wrapper {
+    transform: scale(0.9);
+  }
+
+  .content {
+    padding: 37px 170px !important;
+  }
+}

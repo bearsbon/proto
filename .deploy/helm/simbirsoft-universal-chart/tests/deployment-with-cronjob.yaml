@@ -1,0 +1,31 @@
+---
+
+env:
+  foo: bar
+
+cronjobs:
+  cronjob-1:
+    schedule: '"0 5 * * *"'
+    restartPolicy: Never
+    concurrencyPolicy: Allow
+    failedJobsHistoryLimit: 1
+    successfulJobsHistoryLimit: 5
+    suspend: false
+    env:
+      LDAP_SEARCH_CONTEXT: cn=users,cn=accounts,dc=test,dc=simbirsoft,dc=dev
+    image:
+      name: nginx:latest
+      pullPolicy: Always
+  cronjob-2:
+    schedule: '"0 30 * * *"'
+    restartPolicy: Never
+    concurrencyPolicy: Allow
+    failedJobsHistoryLimit: 1
+    successfulJobsHistoryLimit: 5
+    suspend: false
+    backoffLimit: 1
+    env:
+      param: exchange
+    command:
+      - '/bin/sh'
+    args: ['-c', 'find /volumes/ -type f -ctime +7']

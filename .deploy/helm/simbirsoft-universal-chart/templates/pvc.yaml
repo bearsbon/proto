@@ -1,0 +1,31 @@
+{{- $all := . -}}
+{{- range $k, $v := .Values.pvcs }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "simbirsoft-universal-chart.fullname" $all }}-{{ $k }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "simbirsoft-universal-chart.labels" $ | nindent 4 }}
+    {{- with .labels }}{{- include "helpers.common.tplvalues.render" (dict "value" . "context" $) | nindent 4 }}{{ end }}
+  {{- if .annotations }}
+  annotations:
+    {{- include "helpers.common.tplvalues.render" (dict "value" .annotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes: {{- include "helpers.common.tplvalues.render" ( dict "value" .accessModes "context" $ ) | nindent 4 }}
+  {{- with .volumeMode }}
+  volumeMode: {{ . }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size | default "1Gi" }}
+  {{- with .storageClassName }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  {{- with .selector }}
+  selector:
+    {{- include "helpers.common.tplvalues.render" ( dict "value" . "context" $ ) | nindent 4 }}
+  {{- end }}
+{{- end }}
