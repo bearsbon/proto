@@ -46,29 +46,7 @@ export const createRouter = () =>
         },
       },
       {
-        path: '/workspace',
-        name: 'Workspace',
-        meta: {
-          middleware: [isNotLogged],
-        },
-        components: {
-          header: Navbar,
-          default: Workspace,
-        },
-      },
-      {
-        path: '/classification',
-        name: 'Classification',
-        meta: {
-          middleware: [isNotLogged],
-        },
-        components: {
-          header: Navbar,
-          default: Classification,
-        },
-      },
-      {
-        path: '/simulation',
+        path: '/report',
         name: 'Simulation',
         meta: {
           middleware: [isNotLogged],
@@ -79,14 +57,8 @@ export const createRouter = () =>
         },
         children: [
           {
-            path: '/simulation/create',
-            name: 'create',
-            props: true,
-            component: SimulationCreate,
-          },
-          {
-            path: '/simulation/:id',
-            name: 'report',
+            path: '/simulation/:type',
+            name: 'reportType',
             props: route => ({ type: route.query.type }),
             component: Report,
           },

@@ -4,6 +4,7 @@
 
   &__container {
     width: 600px;
+    margin-top: 70px;
   }
 
   &__info {
@@ -50,6 +51,16 @@
       padding: 0 50px;
     }
   }
+}
+
+.scheme {
+  height: 375px;
+  width: 140%;
+  position: relative;
+  left: -20%;
+  background-image: url('/content/image/scheme.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .settings-block {

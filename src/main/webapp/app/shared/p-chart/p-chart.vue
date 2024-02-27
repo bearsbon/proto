@@ -2,7 +2,7 @@
   <div class="chart">
     <div class="chart__label">
       {{ isPdf && !isInf ? null : label }}
-      <b-button v-if="!isPdf" variant="link" class="chart__label__toggle" v-b-modal="modalId">Expand chart</b-button>
+      <!-- <b-button v-if="!isPdf" variant="link" class="chart__label__toggle" v-b-modal="modalId">Expand chart</b-button> -->
     </div>
     <div style="position: relative; width: 500px; height: 350px" :class="{ pdfChart: isPdf }">
       <Bubble v-if="chartData.datasets.length" :data="chartData" :options="chartOptions" :style="chartStyle" />

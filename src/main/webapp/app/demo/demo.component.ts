@@ -37,6 +37,10 @@ export default defineComponent({
       router.push('simulation/1?type=Clustering');
     };
 
+    const handleSelect = selection => {
+      router.push(`simulation/1?type=${selection}`);
+    };
+
     return {
       selected,
       proportion,
@@ -45,6 +49,7 @@ export default defineComponent({
       signals,
       workspaceRedirect,
       startSimulation,
+      handleSelect,
     };
   },
 });

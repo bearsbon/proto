@@ -1,8 +1,10 @@
 <template>
   <div class="demo" style="transform: scale(0.9)">
     <div class="demo__container">
+      <div class="scheme" />
+
       <div class="user-guide-container">
-        <div class="user-guide-container__header_step">Step 1 <span>Set up experiment method</span></div>
+        <div class="user-guide-container__header_step">Set the experiment method</div>
         <!-- <div v-if="selected" class="user-guide-container__header_step">Set the experiment method</div> -->
       </div>
       <div class="main-page__buttons">
@@ -10,36 +12,33 @@
           class="btn btn-secondary _secondary"
           :class="{ active: selected === 'Clustering' }"
           color="secondary"
-          @click="() => (selected = 'Clustering')"
+          @click="() => handleSelect('Clustering')"
           >Clustering</p-button
         >
         <p-button
           class="btn btn-secondary _secondary"
           :class="{ active: selected === 'Classification' }"
           color="secondary"
-          @click="() => (selected = 'Classification')"
+          @click="() => handleSelect('Classification')"
           >Classification</p-button
         >
       </div>
-      <div v-if="selected === 'Classification'" class="demo__settings">
+      <!-- <div v-if="selected === 'Classification'" class="demo__settings">
         <div class="options-block__proportion">
           <div class="proportion-label">
             Choose train/test proportion:
-            <!-- <b-question-fill class="question__icon" id="proportion" />
-            <b-tooltip target="proportion" triggers="hover" placement="right"
-              >Set the ratio of data going into the classifier training and into the test.</b-tooltip
-            > -->
+            
           </div>
           <div class="proportion-inputs">
             <b-form-input v-model="proportion" type="range" min="0" max="1" step="0.01" class="proportion-inputs__range" />
             <b-form-input v-model="proportion" class="proportion-inputs__number" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div v-if="selected" class="demo__info">All available {{ selected?.toLowerCase() }} methods will be selected.</div>
+      <!-- <div v-if="selected" class="demo__info">All available {{ selected?.toLowerCase() }} methods will be selected.</div> -->
 
-      <div v-if="selected">
+      <!-- <div v-if="selected">
         <div>
           <div class="user-guide-container__header_step">Step 2 <span>Set demo options</span></div>
           <div v-if="selected === 'Classification'" class="demo__settings__checkbox">
@@ -67,7 +66,7 @@
         <div class="submit-wrapper">
           <p-button class="btn btn-primary _primary" color="primary" @click="startSimulation()">Start</p-button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
