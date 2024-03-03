@@ -3,12 +3,9 @@ import { isLogged, isNotLogged, middlewarePipeline } from './middleware';
 const Navbar = () => import('@/core/p-navbar/p-navbar.vue');
 const Auth = () => import('@/auth/auth.vue');
 const Demo = () => import('@/demo/demo.vue');
-const Workspace = () => import('@/workspace/workspace.vue');
 const Simulation = () => import('@/simulation/simulation.vue');
-const SimulationCreate = () => import('@/simulation/create/create.vue');
 const Error = () => import('@/core/error/error.vue');
 const Report = () => import('@/simulation/report/report.vue');
-const Classification = () => import('@/classification/classification.vue');
 
 export const createRouter = () =>
   createVueRouter({
@@ -35,14 +32,6 @@ export const createRouter = () =>
         components: {
           header: Navbar,
           default: Demo,
-        },
-      },
-      {
-        path: '/report',
-        name: 'reportt',
-        components: {
-          header: Navbar,
-          component: Report,
         },
       },
       {
