@@ -37,6 +37,7 @@ export default defineComponent({
     const resultTableItems = ref(null);
     const subTitle = type === 'Classification' ? 'Method' : 'Algorithm';
     const page = router.currentRoute.value.name;
+    const socketData = ref(null);
 
     const socket = io('ws://localhost:8000');
 
@@ -44,8 +45,13 @@ export default defineComponent({
       console.log('start');
       socket.emit('start');
 
-      socket.on('collect', data => {
-        console.log(JSON.parse(data));
+      socket.on('collect', res => {
+        const data = JSON.parse(res);
+
+        reportData.value = data;
+        socketData.value = data;
+
+        isLoading.value = false;
       });
     };
 

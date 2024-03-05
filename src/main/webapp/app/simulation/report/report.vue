@@ -38,37 +38,46 @@
         </b-collapse>
       </div>
       <div v-if="type === 'Clustering'" class="report-page__grid">
-        <div v-for="(item, index) in reportData" :key="item.id">
+        <div v-for="(item, index) in socketData ? socketData : [1, 2, 3, 4, 5, 6]" :key="item.id">
           <p-chart
-            :data="item.result.modelResult.graph"
+            :data="[]"
+            :palette="palette.classPalette"
+            type="class"
+            :label="`Algorithm 123`"
+            :chart-style="chartStyle"
+            :modalId="'123123123'"
+            :isClustering="true"
+          />
+          <!-- <p-chart
+            :data="item.data "
             :palette="palette.classPalette"
             type="class"
             :label="`Algorithm ${item.model.name}`"
-            :labels-arr="item.lables_class"
+            :labels-arr="item.given_labels"
             :chart-style="chartStyle"
-            :modalId="item.result.modelResult.graph[0].label + '_' + index"
+            :modalId="item[0].label + '_' + index"
             :isClustering="true"
-          />
+          /> -->
         </div>
       </div>
 
-      <div v-for="(item, index) in reportData" :key="item.id">
+      <!-- <div v-for="(item, index) in reportData" :key="item.id">
         <h5 v-if="type === 'Classification'" class="algorithm__title">
           {{ subTitle + ' ' + item.model.name }}
         </h5>
         <div v-if="type === 'Classification'" class="report-page__grid">
-          <div v-if="item.result.modelResult.graph">
+          <div >
             <p-chart
-              :data="item.result.modelResult.graph"
+              :data="item.model_result.graph.data"
               :palette="palette.classPalette"
               type="class"
               :label="'Classification projection'"
-              :labels-arr="item.result.modelResult.labels"
+              :labels-arr="item.model_result.labels"
               :chart-style="chartStyle"
-              :modalId="item.result.modelResult.graph[0].label + '_' + index"
+              :modalId="item.model_result.graph[0].label + '_' + index"
               :alorithmTitle="`Algorithm ${item.modelMethod}`"
               :isClustering="false"
-              :isPredictedLabel="item.result.modelResult.graph.some(el => el.predictedLabel !== el.label)"
+              :isPredictedLabel="item.model_result.graph.some(el => el.predictedLabel !== el.label)"
             />
           </div>
 
@@ -85,12 +94,12 @@
           </div>
           <div :class="{ confMatrix: true, confMatrixWithInference: item.inference }">
             <p-confusion-matrix
-              v-if="item.result.confusionMatrix"
-              :matrix-data="item.result.confusionMatrix.values"
-              :ox-tags="item.result.confusionMatrix.givenLabels"
-              :oy-tags="item.result.confusionMatrix.predictedLabels"
+              v-if="item.confusion_matrix"
+              :matrix-data="item.confusion_matrix.values"
+              :ox-tags="item.confusion_matrix.given_labels"
+              :oy-tags="item.confusion_matrix.predicted_labels"
               :top-value="123"
-              :accuracy="item.result.metrics.accuracy.toFixed(4)"
+              :accuracy="item.metrics.accuracy.toFixed(4)"
             />
           </div>
           <p-metrix-table
@@ -101,8 +110,8 @@
             label="Summary information:"
           />
         </div>
-      </div>
-      <div class="report-page__grid">
+      </div> -->
+      <!-- <div class="report-page__grid">
         <div v-if="tableData && type === 'Classification'" style="transform: scale(0.9); margin-left: 5px">
           <b-table
             sticky-header
@@ -114,7 +123,7 @@
             style="width: 100%"
           />
         </div>
-      </div>
+      </div> -->
     </div>
     <div style="text-align: center" v-else>
       <div style="margin: 200px 0">
