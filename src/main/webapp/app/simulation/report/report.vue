@@ -17,8 +17,8 @@
           Measure result
 
           <div class="report-page__title__buttons">
-            <p-button class="report-page__title_button" color="primary" @click="() => console.log('start')">Start</p-button>
-            <p-button class="btn btn-secondary _secondary" color="secondary" @click="() => console.log('start')">Stop</p-button>
+            <p-button class="report-page__title_button" color="primary" @click="startSimulation()">Start</p-button>
+            <p-button class="btn btn-secondary _secondary" color="secondary" @click="stopSimulation()">Stop</p-button>
           </div>
         </h1>
       </section>
@@ -32,21 +32,6 @@
             <li>
               <span class="report-page__information__bold">{{ type + ' ' + subTitle.toLowerCase() }}: </span>{{ report.modelMethod }}
             </li>
-            <!-- <li>
-              <span class="report-page__information__bold">Embeddings file: </span>
-              <span class="report-page__file">{{ report.embeddingArchiveFileName }}</span>
-              <b-download class="report-page__information__icon" @click="downloadZip(report.id, report.embeddingArchiveFileName, page)" />
-            </li>
-            <li v-if="type === 'Classification'">
-              <span class="report-page__information__bold">Train/test proportion: </span>
-              {{ report.exchanges[0].result.queryParams.trainSize }}
-            </li>
-            <li v-if="type === 'Classification'">
-              <span class="report-page__information__bold">Splitter type: </span> {{ report.exchanges[0].result.queryParams.splitter }}
-            </li> -->
-            <!-- <li v-if="report.embeddingFilesSize">
-              <span class="report-page__information__bold">Uploaded data size: </span> {{ inputFilesize }}
-            </li> -->
             <li><span class="report-page__information__bold">Uploaded raw data volume: </span> {{ embeddingFilesSize }}</li>
             <li><span class="report-page__information__bold">Output embeddings volume: </span> {{ embeddingFilesSize }}</li>
           </ul>

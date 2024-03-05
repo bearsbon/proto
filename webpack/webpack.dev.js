@@ -27,7 +27,7 @@ module.exports = (env, options) => {
       {
         // host: 'localhost',
         host: '0.0.0.0',
-        port: 9000,
+        port: 9111,
         proxy: {
           target: `http://localhost:${options.watch ? '8080' : '9060'}`,
           ws: true,

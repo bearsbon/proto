@@ -11,6 +11,7 @@ import { useAlertService } from '@/shared/helpers/AlertService';
 import PChart from '@/shared/p-chart/p-chart.vue';
 import { getReportData } from '@/simulation/report/report.data';
 import router from '@/router';
+import { io } from 'socket.io-client';
 
 export default defineComponent({
   name: 'Report',
@@ -36,6 +37,22 @@ export default defineComponent({
     const resultTableItems = ref(null);
     const subTitle = type === 'Classification' ? 'Method' : 'Algorithm';
     const page = router.currentRoute.value.name;
+
+    const socket = io('ws://localhost:8000');
+
+    const startSimulation = () => {
+      console.log('start');
+      socket.emit('start');
+
+      socket.on('collect', data => {
+        console.log(JSON.parse(data));
+      });
+    };
+
+    const stopSimulation = () => {
+      console.log('stop');
+      socket.emit('stop');
+    };
 
     const downloadPdfFile = () => {
       pdfComponent.value.generateReport();
@@ -95,6 +112,8 @@ export default defineComponent({
       subTitle,
       metricsData,
       page,
+      stopSimulation,
+      startSimulation,
     };
   },
 });
