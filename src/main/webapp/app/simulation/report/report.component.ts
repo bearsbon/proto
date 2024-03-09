@@ -41,6 +41,8 @@ export default defineComponent({
 
     const socket = io('ws://localhost:8000');
 
+    const testData = ref(null);
+
     const startSimulation = () => {
       console.log('start');
       socket.emit('start');
@@ -51,6 +53,7 @@ export default defineComponent({
         reportData.value = data;
         socketData.value = data;
 
+        testData.value = data.model_result;
         isLoading.value = false;
       });
     };
@@ -120,6 +123,7 @@ export default defineComponent({
       page,
       stopSimulation,
       startSimulation,
+      testData,
     };
   },
 });

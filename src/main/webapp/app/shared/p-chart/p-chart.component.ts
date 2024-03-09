@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref, computed } from 'vue';
+import { defineComponent, onMounted, ref, computed, watchEffect, watch } from 'vue';
 import { Chart as ChartJS, Tooltip, Legend, PointElement, LinearScale } from 'chart.js';
 import { Bubble } from 'vue-chartjs';
 
@@ -38,6 +38,8 @@ export default defineComponent({
     const toggleText = computed(() => {
       return collapse.value ? 'Click to collapse' : 'Click to expand';
     });
+
+    const chart = ref(null);
 
     const chartLegend = ref([]);
     const chartOptions = ref({
@@ -122,19 +124,41 @@ export default defineComponent({
       },
     });
 
+    watch(
+      () => props.data,
+      newData => {
+        if (chart.value && chart.value?.chart?.data?.datasets.length) {
+          for (let i = 0; i < chart.value?.chart?.data?.datasets.length; i++) {
+            chart.value.chart.data.datasets[i].data = [...chart.value.chart.data.datasets[i].data, ...newData[i].data];
+          }
+
+          chart.value?.chart?.update();
+        } else {
+          const res = newData.map((el, index) => {
+            return { backgroundColor: props.palette[index], ...el };
+          });
+          chart.value?.chart?.data?.datasets = res;
+          chart.value?.chart?.update();
+        }
+      }
+      // { deep: true }
+    );
+
     onMounted(() => {
       for (const prop in props.palette) {
         chartLegend.value.push({ text: prop, fillStyle: props.palette[prop] });
       }
-      chartData.value.datasets = props.data.map(item => {
+
+      chartData.value.datasets = props.data?.map((item, index) => {
+        item.backgroundColor = props.palette[index];
         // Логика отрисовки predicted label на графике
-        item.backgroundColor = props.palette[item.label];
-        if (item.predictedLabel.length) {
-          if (item.label !== item.predicted_label) {
-            item.borderColor = props.palette[item.predicted_label];
-            item.borderWidth = 4;
-          }
-        }
+        // item.backgroundColor = props.palette[item.label];
+        // if (item.predictedLabel?.length) {
+        //   if (item.label !== item.predicted_label) {
+        //     item.borderColor = props.palette[item.predicted_label];
+        //     item.borderWidth = 4;
+        //   }
+        // }
         return item;
       });
     });
@@ -149,6 +173,7 @@ export default defineComponent({
       modalChartOptions,
       alorithmTitle,
       isPredictedLabel,
+      chart,
     };
   },
 });

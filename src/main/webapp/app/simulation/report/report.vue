@@ -37,8 +37,19 @@
           </ul>
         </b-collapse>
       </div>
+      <p-chart
+        :data="testData?.graph ?? []"
+        :palette="palette.classPalette"
+        type="class"
+        :label="`test`"
+        :labels-arr="testData?.labels"
+        :chart-style="chartStyle"
+        :modalId="'test123'"
+        :isClustering="true"
+      />
+
       <div v-if="type === 'Clustering'" class="report-page__grid">
-        <div v-for="(item, index) in socketData ? socketData : [1, 2, 3, 4, 5, 6]" :key="item.id">
+        <div v-for="(item, index) in socketData ? socketData : []" :key="item.id">
           <p-chart
             :data="[]"
             :palette="palette.classPalette"
