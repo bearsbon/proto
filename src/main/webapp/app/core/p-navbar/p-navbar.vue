@@ -8,14 +8,14 @@
       <div class="ml-auto user-guide-container__header">LoRa</div>
 
       <b-navbar-nav class="ml-auto right">
-        <!-- <div>
+        <div>
           <div class="user-name">{{ userShortName }}</div>
           <div class="logout-button" v-b-modal.modal-multi-1>Log Out</div>
-        </div> -->
+        </div>
       </b-navbar-nav>
     </b-navbar>
 
-    <!-- <b-modal id="modal-multi-1">
+    <b-modal id="modal-multi-1">
       <template #modal-header>
         <h5>Confirm your action</h5>
       </template>
@@ -27,7 +27,7 @@
       <template #modal-footer="{ ok }">
         <b-button @click="onLogout"> OK </b-button>
       </template>
-    </b-modal> -->
+    </b-modal>
   </div>
 </template>
 

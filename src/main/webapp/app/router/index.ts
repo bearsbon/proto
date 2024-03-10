@@ -13,7 +13,7 @@ export const createRouter = () =>
     routes: [
       {
         path: '/',
-        redirect: '/auth',
+        redirect: '/demo',
       },
       {
         path: '/auth',
@@ -62,29 +62,33 @@ export const createRouter = () =>
           error404: true,
         },
       },
+      {
+        path: '/:catchAll(.*)',
+        redirect: '/demo',
+      },
     ],
   });
 
 const router = createRouter();
 
-// router.beforeEach((to, from, next) => {
-//   const { middleware } = to.meta;
+router.beforeEach((to, from, next) => {
+  const { middleware } = to.meta;
 
-//   if (!middleware) {
-//     return next();
-//   }
+  if (!middleware) {
+    return next();
+  }
 
-//   return middleware[0]({
-//     next: middlewarePipeline(next, middleware, 1),
-//   });
-// });
+  return middleware[0]({
+    next: middlewarePipeline(next, middleware, 1),
+  });
+});
 
-// router.beforeResolve(async (to, from, next) => {
-//   if (!to.matched.length) {
-//     next({ path: '/not-found' });
-//     return;
-//   }
-//   next();
-// });
+router.beforeResolve(async (to, from, next) => {
+  if (!to.matched.length) {
+    next({ path: '/not-found' });
+    return;
+  }
+  next();
+});
 
 export default router;
