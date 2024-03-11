@@ -35,7 +35,7 @@
         :data="testData?.graph ?? []"
         :palette="palette.classPalette"
         type="class"
-        :label="`test`"
+        :label="`Algorithm ...`"
         :labels-arr="testData?.labels"
         :chart-style="chartStyle"
         :modalId="'test123'"

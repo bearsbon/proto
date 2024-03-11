@@ -3,9 +3,7 @@ import { isLogged, isNotLogged, middlewarePipeline } from './middleware';
 const Navbar = () => import('@/core/p-navbar/p-navbar.vue');
 const Auth = () => import('@/auth/auth.vue');
 const Demo = () => import('@/demo/demo.vue');
-const Simulation = () => import('@/simulation/simulation.vue');
 const Error = () => import('@/core/error/error.vue');
-const Report = () => import('@/simulation/report/report.vue');
 
 export const createRouter = () =>
   createVueRouter({
@@ -33,25 +31,6 @@ export const createRouter = () =>
           header: Navbar,
           default: Demo,
         },
-      },
-      {
-        path: '/report',
-        name: 'Simulation',
-        meta: {
-          middleware: [isNotLogged],
-        },
-        components: {
-          header: Navbar,
-          default: Simulation,
-        },
-        children: [
-          {
-            path: '/simulation/:type',
-            name: 'reportType',
-            props: route => ({ type: route.query.type }),
-            component: Report,
-          },
-        ],
       },
       {
         path: '/not-found',

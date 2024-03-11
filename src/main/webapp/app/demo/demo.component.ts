@@ -1,13 +1,7 @@
-// import { getMediaLinks } from '@/api/demo';
 import PSimulationTable from '@/shared/p-simulation-table/p-simulation-table.vue';
-// import { simulationTableFields } from '@/shared/helpers/variables';
 import PButton from '@/shared/p-button/p-button.vue';
-import PSelect from '@/shared/p-select/p-select.vue';
-// import { useAlertService } from '@/shared/helpers/AlertService';
 import { defineComponent, ref, onMounted, computed, inject } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import PConfusionMatrix from '@/shared/p-confusion-matrix/p-confusion-matrix.vue';
-import PMetrixTable from '@/shared/p-metrix-table/p-metrix-table.vue';
 import { simulationTableFields, resultTableFields } from '@/shared/helpers/variables';
 import { downloadZipFile } from '@/api/downloadings';
 import downloadFile from '@/shared/helpers/downloadFile';
@@ -21,9 +15,6 @@ export default defineComponent({
   components: {
     'p-simulation-table': PSimulationTable,
     'p-button': PButton,
-    'p-select': PSelect,
-    'p-metrix-table': PMetrixTable,
-    'p-confusion-matrix': PConfusionMatrix,
     'p-chart': PChart,
   },
   setup() {
