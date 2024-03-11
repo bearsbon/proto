@@ -9,13 +9,11 @@ import { useRoute, useRouter } from 'vue-router';
 import PConfusionMatrix from '@/shared/p-confusion-matrix/p-confusion-matrix.vue';
 import PMetrixTable from '@/shared/p-metrix-table/p-metrix-table.vue';
 import { simulationTableFields, resultTableFields } from '@/shared/helpers/variables';
-import PPdf from '@/shared/p-pdf/p-pdf.vue';
 import { downloadZipFile } from '@/api/downloadings';
 import downloadFile from '@/shared/helpers/downloadFile';
 import { useAlertService } from '@/shared/helpers/AlertService';
 import PChart from '@/shared/p-chart/p-chart.vue';
 import { getReportData } from '@/simulation/report/report.data';
-import router from '@/router';
 import { io } from 'socket.io-client';
 
 export default defineComponent({
@@ -26,7 +24,6 @@ export default defineComponent({
     'p-select': PSelect,
     'p-metrix-table': PMetrixTable,
     'p-confusion-matrix': PConfusionMatrix,
-    'p-pdf': PPdf,
     'p-chart': PChart,
   },
   setup() {
@@ -71,6 +68,7 @@ export default defineComponent({
     const subTitle = type === 'Classification' ? 'Method' : 'Algorithm';
     const page = router.currentRoute.value.name;
     const socketData = ref(null);
+    const methods = ref('All');
 
     const socket = io('ws://localhost:8000');
 
@@ -111,7 +109,7 @@ export default defineComponent({
     };
 
     const toggleText = computed(() => {
-      return collapse.value ? 'Click to collapse' : 'Click to expand';
+      return collapse.value ? 'Click to hide scheme' : 'Click to show scheme';
     });
 
     const createNew = () => {
@@ -167,6 +165,7 @@ export default defineComponent({
       // startSimulation,
       testData,
       socketData,
+      methods,
     };
   },
 });

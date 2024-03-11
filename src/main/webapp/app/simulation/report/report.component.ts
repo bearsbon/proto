@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router';
 import PConfusionMatrix from '@/shared/p-confusion-matrix/p-confusion-matrix.vue';
 import PMetrixTable from '@/shared/p-metrix-table/p-metrix-table.vue';
 import { simulationTableFields, resultTableFields } from '@/shared/helpers/variables';
-import PPdf from '@/shared/p-pdf/p-pdf.vue';
 import { downloadZipFile } from '@/api/downloadings';
 import downloadFile from '@/shared/helpers/downloadFile';
 import { useAlertService } from '@/shared/helpers/AlertService';
@@ -19,7 +18,6 @@ export default defineComponent({
     'p-metrix-table': PMetrixTable,
     'p-confusion-matrix': PConfusionMatrix,
     'p-button': PButton,
-    'p-pdf': PPdf,
     'p-chart': PChart,
   },
   setup: function () {

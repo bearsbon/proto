@@ -2,6 +2,10 @@
   display: flex;
   justify-content: center;
 
+  &__collapse {
+    text-align: center;
+  }
+
   &__container {
     width: 600px;
     margin-top: 70px;
@@ -198,6 +202,7 @@
 }
 
 .report-page {
+  margin-bottom: 100px;
   &__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
